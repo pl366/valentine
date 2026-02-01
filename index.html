@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simran ❤️ Pulkit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(270deg, #ff9a9e, #fad0c4, #ffd1ff);
+      background-size: 600% 600%;
+      animation: bg 10s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    @keyframes bg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      width: 380px;
+      height: 320px;
+      position: relative;
+      overflow: hidden; /* IMPORTANT */
+    }
+
+    h1 {
+      color: #ff4d6d;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 12px 24px;
+      border-radius: 14px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    #no {
+      background: #ccc;
+      position: absolute;
+      left: 50%;
+      top: 65%;
+      transform: translate(-50%, -50%);
+    }
+
+    #response {
+      display: none;
+      margin-top: 15px;
+      font-size: 22px;
+      color: #ff4d6d;
+      animation: pop 0.6s ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    .love {
+      font-size: 28px;
+      animation: glow 1.5s infinite;
+    }
+
+    @keyframes glow {
+      0% { color: #ff4d6d; }
+      50% { color: #ff85a1; }
+      100% { color: #ff4d6d; }
+    }
+
+    /* Jump scare overlay */
+    #scare {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: black;
+      color: red;
+      font-size: 48px;
+      font-weight: bold;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      animation: shake 0.3s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0); }
+      25% { transform: translate(5px, 5px); }
+      50% { transform: translate(-5px, 5px); }
+      75% { transform: translate(5px, -5px); }
+      100% { transform: translate(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>💖 Simran, will you be my Valentine? 💖</h1>
+
+    <button id="yes">Yes 💘</button>
+
+    <button id="no">No 🙃</button>
+
+    <div id="response">
+      <div class="love">Simran ❤️ Pulkit</div>
+      Forever starts now 💕🥰
+    </div>
+  </div>
+
+  <!-- Jump scare -->
+  <div id="scare">NO ACCEPTED 😈</div>
+
+  <!-- Music -->
+  <audio id="music" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const yesBtn = document.getElementById("yes");
+    const noBtn = document.getElementById("no");
+    const card = document.querySelector(".card");
+    const response = document.getElementById("response");
+    const music = document.getElementById("music");
+    const scare = document.getElementById("scare");
+
+    function moveNoButton() {
+      const cardRect = card.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = cardRect.width - btnRect.width - 20;
+      const maxY = cardRect.height - btnRect.height - 20;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+    }
+
+    setInterval(moveNoButton, 1800);
+
+    // Fake NO accepted jump scare
+    noBtn.onclick = () => {
+      scare.style.display = "flex";
+      setTimeout(() => {
+        scare.style.display = "none";
+        alert("JK 😜 That button is decorative only");
+      }, 700);
+    };
+
+    // YES = happy ending
+    yesBtn.onclick = () => {
+      response.style.display = "block";
+      noBtn.style.display = "none";
+      music.play().catch(() => {});
+
+      confetti({
+        particleCount: 300,
+        spread: 140,
+        origin: { y: 0.6 }
+      });
+
+      setInterval(() => {
+        confetti({
+          particleCount: 40,
+          spread: 70,
+          origin: { x: Math.random(), y: Math.random() }
+        });
+      }, 1500);
+    };
+  </script>
+
+</body>
+</html>
